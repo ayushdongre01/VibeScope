@@ -229,14 +229,21 @@ JSON response → Next.js Dashboard
 ### Home Page
 Search interface with popular suggestions (Tesla, #AI, iPhone, OpenAI, Bitcoin, Netflix, SpaceX) and platform-specific icons for YouTube, Mastodon, NewsAPI, and Hacker News.
 
+![VibeScope – Home Page 1](https://github.com/ayushdongre01/VibeScope/blob/main/images/1.png)
+![VibeScope – Home Page 2](https://github.com/ayushdongre01/VibeScope/blob/main/images/2.png)
+
 ### Sentiment Analysis Dashboard
+- **AI-Generated Summary**: Narrative text summarizing overall public opinion
+![VibeScope – AI Summary](https://github.com/ayushdongre01/VibeScope/blob/main/images/3.png)
 - **Sentiment Distribution Pie Chart**: Visual breakdown of positive, neutral, and negative sentiments
 - **Platform-wise Sentiment**: Stacked bar chart showing sentiment distribution across all 4 platforms
+![VibeScope – AI Summary](https://github.com/ayushdongre01/VibeScope/blob/main/images/4.png)
 - **Emotion Detection**: Polar area chart displaying emotion categories (happy, anger, sadness, excitement, neutral)
 - **Trending Keywords**: Bar chart with top 10 trending terms related to the search query
+![VibeScope – AI Summary](https://github.com/ayushdongre01/VibeScope/blob/main/images/5.png)
 - **Word Cloud**: Visual representation of keyword frequencies with color-coded importance
-- **AI-Generated Summary**: Narrative text summarizing overall public opinion
 - **Example Posts**: Real sample posts representing positive, neutral, and negative sentiments
+![VibeScope – AI Summary](https://github.com/ayushdongre01/VibeScope/blob/main/images/6.png)
 
 ---
 
