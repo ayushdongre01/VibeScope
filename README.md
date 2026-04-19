@@ -6,6 +6,16 @@ Analyze public opinion about any keyword, hashtag, brand, or topic across **YouT
 
 ---
 
+## 🚀 Live Demo
+
+Experience VibeScope in action:
+
+- **Frontend**: https://vibe-scope-two.vercel.app/
+- **Backend API**: https://vibescope-production.up.railway.app/api
+- **API Docs**: https://vibescope-production.up.railway.app/docs
+
+---
+
 ## Architecture
 
 ```
@@ -52,7 +62,11 @@ cp .env.example .env
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+# macOS / Linux
+source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
 pip install -r ../requirements.txt
 
 # Start server
@@ -207,6 +221,22 @@ JSON response → Next.js Dashboard
 | 📈 Trending Keywords | Ranked bar list of top 10 terms |
 | 💬 Example Posts | One real post per sentiment bucket |
 | ✦ AI Summary | Narrative summary of overall public opinion |
+
+---
+
+## 📸 Screenshots
+
+### Home Page
+Search interface with popular suggestions (Tesla, #AI, iPhone, OpenAI, Bitcoin, Netflix, SpaceX) and platform-specific icons for YouTube, Mastodon, NewsAPI, and Hacker News.
+
+### Sentiment Analysis Dashboard
+- **Sentiment Distribution Pie Chart**: Visual breakdown of positive, neutral, and negative sentiments
+- **Platform-wise Sentiment**: Stacked bar chart showing sentiment distribution across all 4 platforms
+- **Emotion Detection**: Polar area chart displaying emotion categories (happy, anger, sadness, excitement, neutral)
+- **Trending Keywords**: Bar chart with top 10 trending terms related to the search query
+- **Word Cloud**: Visual representation of keyword frequencies with color-coded importance
+- **AI-Generated Summary**: Narrative text summarizing overall public opinion
+- **Example Posts**: Real sample posts representing positive, neutral, and negative sentiments
 
 ---
 
