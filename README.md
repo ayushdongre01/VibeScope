@@ -278,9 +278,3 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api
 - **Caching**: Results are cached in MongoDB for 5 minutes to avoid redundant ML inference.
 - **Model loading**: RoBERTa is loaded once and cached via `@lru_cache` — first request is slow (~10–30s), subsequent ones are fast.
 - **Async**: Backend uses `asyncio.gather` for parallel data fetching and `run_in_executor` to keep ML inference off the event loop.
-
----
-
-## License
-
-MIT
