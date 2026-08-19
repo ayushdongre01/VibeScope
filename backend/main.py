@@ -25,7 +25,11 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://vibe-scope-two.vercel.app"],
+    allow_origins=[
+        "https://vibe-scope-app.vercel.app",
+        "https://vibe-scope-7zzoko0g2-ayush-bf2929b7.vercel.app",
+        "https://vibe-scope-app.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
