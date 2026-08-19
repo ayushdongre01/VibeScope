@@ -95,6 +95,7 @@ export default function Dashboard() {
     <>
       <Head>
         <title>{query ? `${query} — VibeScope` : "VibeScope Dashboard"}</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div

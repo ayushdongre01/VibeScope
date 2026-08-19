@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="vs-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6c63ff" />
+      <stop offset="100%" stop-color="#8b84ff" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" ry="112" fill="url(#vs-grad)" />
+  <text x="256" y="338" font-family="'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Syne', Roboto, sans-serif" font-size="246" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="-4">VS</text>
+</svg>
