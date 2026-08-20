@@ -9,10 +9,21 @@ from backend.routes.posts import router as posts_router
 import os
 import uvicorn
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await connect_db()
+
+    print("Loading ML models...")
+    from ml_service.sentiment_model import _load_model
+    _load_model()
+
+    from ml_service.emotion_detector import _load_emotion_pipeline
+    _load_emotion_pipeline()
+    print("Models loaded successfully")
+
     yield
+
     await disconnect_db()
 
 
@@ -26,9 +37,9 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "http://localhost:3000",
         "https://vibe-scope-app.vercel.app",
         "https://vibe-scope-7zzoko0g2-ayush-bf2929b7.vercel.app",
-        "https://vibe-scope-app.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -38,17 +49,6 @@ app.add_middleware(
 app.include_router(analyze_router, prefix="/api", tags=["analyze"])
 app.include_router(posts_router, prefix="/api", tags=["posts"])
 
-@app.on_event("startup")
-async def preload_models():
-    print("Loading ML models...")
-
-    from ml_service.sentiment_model import _load_model
-    _load_model()
-
-    from ml_service.emotion_detector import _load_emotion_pipeline
-    _load_emotion_pipeline()
-
-    print("Models loaded successfully")
 
 @app.get("/")
 async def root():
