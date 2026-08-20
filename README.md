@@ -14,11 +14,13 @@ vibescope/
 ├── backend/           # FastAPI async REST API
 │   ├── routes/        # /analyze, /posts, /history
 │   ├── services/      # Per-platform data fetchers
-│   ├── pipeline/      # Text cleaning & preprocessing
-│   └── database/      # MongoDB motor models
-├── ml_service/        # HuggingFace sentiment, emotion, keywords, summarizer
-└── database/          # Seed data script
+│   ├── pipeline/       # Text cleaning & preprocessing
+│   └── database/       # MongoDB motor models
+├── ml_service/         # HuggingFace sentiment, emotion, keywords, summarizer
+└── database/           # Seed data script
 ```
+
+> Note: `/api/posts` and `/api/history` are both implemented in `backend/routes/posts.py`, sharing a single router rather than living in separate files.
 
 ---
 
@@ -29,8 +31,9 @@ vibescope/
 | Frontend | Next.js 14, Tailwind CSS, Chart.js, React Query |
 | Backend | FastAPI, Python 3.11+, async/await |
 | ML/NLP | HuggingFace Transformers (`cardiffnlp/twitter-roberta-base-sentiment`) |
-| Emotion | Lexicon-based rule engine |
+| Emotion | HuggingFace Transformers (`j-hartmann/emotion-english-distilroberta-base`) |
 | Summarizer | `facebook/bart-large-cnn` (with rule-based fallback) |
+| Keywords | NLTK frequency-based extraction |
 | Database | MongoDB via Motor (async) |
 | Data APIs | YouTube Data v3, Mastodon, NewsAPI, Hacker News Firebase |
 
@@ -185,11 +188,14 @@ Text cleaning pipeline
 └── Truncation to 512 tokens
     │
     ▼
+Language filtering (English-only, off event loop)
+    │
+    ▼
 ML inference (thread pool)
 ├── Sentiment: cardiffnlp/twitter-roberta-base-sentiment
 │   LABEL_0 → negative | LABEL_1 → neutral | LABEL_2 → positive
-├── Emotion: lexicon-based (happy/anger/sadness/excitement/neutral)
-├── Keywords: frequency analysis, top-10
+├── Emotion: j-hartmann/emotion-english-distilroberta-base (transformer pipeline)
+├── Keywords: NLTK frequency analysis, top-10
 └── Summary: facebook/bart-large-cnn (rule-based fallback)
     │
     ▼
@@ -268,5 +274,6 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api
 - **Mock fallbacks**: All 4 platform services return realistic mock data if API keys are missing — ideal for local development.
 - **Caching**: Results are cached in MongoDB for 5 minutes to avoid redundant ML inference.
 - **Model loading**: Sentiment and emotion models are loaded once during the FastAPI `lifespan` startup phase, so the first request doesn't pay the model-load cost — subsequent requests hit an already-warm model.
+- **Language filtering**: Before ML inference, posts are filtered to English-only content off the event loop.
 - **Async**: Backend uses `asyncio.gather` for parallel data fetching and `run_in_executor` to keep ML inference off the event loop.
 - **Resource note**: The sentiment/emotion/summarization models are relatively large (transformer-based) and memory-hungry, so this project is set up for local/self-hosted use rather than a free-tier cloud deployment.
