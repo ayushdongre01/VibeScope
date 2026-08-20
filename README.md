@@ -6,16 +6,6 @@ Analyze public opinion about any keyword, hashtag, brand, or topic across **YouT
 
 ---
 
-## 🚀 Live Demo
-
-Experience VibeScope in action:
-
-- **Frontend**: https://vibe-scope-two.vercel.app/
-- **Backend API**: https://vibescope-production.up.railway.app/api
-- **API Docs**: https://vibescope-production.up.railway.app/docs
-
----
-
 ## Architecture
 
 ```
@@ -26,7 +16,7 @@ vibescope/
 │   ├── services/      # Per-platform data fetchers
 │   ├── pipeline/      # Text cleaning & preprocessing
 │   └── database/      # MongoDB motor models
-├── ml-service/        # HuggingFace sentiment, emotion, keywords, summarizer
+├── ml_service/        # HuggingFace sentiment, emotion, keywords, summarizer
 └── database/          # Seed data script
 ```
 
@@ -59,21 +49,23 @@ cp .env.example .env
 
 ### 2. Backend
 
+Run from the **project root** (not from inside `backend/`) — the app is structured as a package and imports itself as `backend.*`.
+
 ```bash
-cd backend
 python -m venv venv
 # macOS / Linux
 source venv/bin/activate
 
 # Windows
 venv\Scripts\activate
-pip install -r ../requirements.txt
 
-# Start server
-uvicorn main:app --reload --port 8000
+pip install -r requirements.txt
+
+# Start server (from project root)
+uvicorn backend.main:app --reload --port 8000
 ```
 
-API available at: `http://localhost:8000`  
+API available at: `http://localhost:8000`
 Interactive docs: `http://localhost:8000/docs`
 
 ### 3. Frontend
@@ -96,12 +88,11 @@ brew install mongodb-community && brew services start mongodb-community
 sudo systemctl start mongod
 
 # Docker
-docker run -d -p 27017:27017 mongo:7
+docker run -d -p 27017:27017 --name mongodb mongo:latest
 ```
 
 Seed with sample data:
 ```bash
-cd vibescope
 python database/seed_data.py
 ```
 
@@ -242,19 +233,19 @@ Search interface with popular suggestions (Tesla, #AI, iPhone, OpenAI, Bitcoin, 
 - **Sentiment Distribution Pie Chart**: Visual breakdown of positive, neutral, and negative sentiments
 - **Platform-wise Sentiment**: Stacked bar chart showing sentiment distribution across all 4 platforms
 
-![VibeScope – AI Summary](https://github.com/ayushdongre01/VibeScope/blob/main/images/4.png)
+![VibeScope – Platform Breakdown](https://github.com/ayushdongre01/VibeScope/blob/main/images/4.png)
 
 
 - **Emotion Detection**: Polar area chart displaying emotion categories (happy, anger, sadness, excitement, neutral)
 - **Trending Keywords**: Bar chart with top 10 trending terms related to the search query
 
-![VibeScope – AI Summary](https://github.com/ayushdongre01/VibeScope/blob/main/images/5.png)
+![VibeScope – Emotion & Keywords](https://github.com/ayushdongre01/VibeScope/blob/main/images/5.png)
 
 
 - **Word Cloud**: Visual representation of keyword frequencies with color-coded importance
 - **Example Posts**: Real sample posts representing positive, neutral, and negative sentiments
 
-![VibeScope – AI Summary](https://github.com/ayushdongre01/VibeScope/blob/main/images/6.png)
+![VibeScope – Word Cloud & Example Posts](https://github.com/ayushdongre01/VibeScope/blob/main/images/6.png)
 
 
 ---
@@ -276,5 +267,6 @@ NEXT_PUBLIC_API_URL=http://localhost:8000/api
 
 - **Mock fallbacks**: All 4 platform services return realistic mock data if API keys are missing — ideal for local development.
 - **Caching**: Results are cached in MongoDB for 5 minutes to avoid redundant ML inference.
-- **Model loading**: RoBERTa is loaded once and cached via `@lru_cache` — first request is slow (~10–30s), subsequent ones are fast.
+- **Model loading**: Sentiment and emotion models are loaded once during the FastAPI `lifespan` startup phase, so the first request doesn't pay the model-load cost — subsequent requests hit an already-warm model.
 - **Async**: Backend uses `asyncio.gather` for parallel data fetching and `run_in_executor` to keep ML inference off the event loop.
+- **Resource note**: The sentiment/emotion/summarization models are relatively large (transformer-based) and memory-hungry, so this project is set up for local/self-hosted use rather than a free-tier cloud deployment.
