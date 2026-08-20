@@ -38,8 +38,6 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://vibe-scope-app.vercel.app",
-        "https://vibe-scope-7zzoko0g2-ayush-bf2929b7.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
